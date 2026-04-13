@@ -1,15 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
     <h:head>
         <title>Bingus Music Reviews</title>
     </h:head>
-    <h:outputLink value="browseartists.xhtml">Browse Artists</h:outputLink>
-    <h1>Bingus Music Reviews</h1>
     <h:body>
-        Review your favourite songs and music that you have never heard of before!
+        <f:ajax event="click" render="@all">
+        <h1 style="text-align:center;">Bingus Music Reviews</h1>
+        <h:panelGrid columns="10" style="margin: 0 auto;">
+            <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
+            <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+            <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
+            <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
+            <h:link outcome="about" value="About" style= "padding: 15px;"   />
+            <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+            <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+            <h:link outcome="adminlogin" value="Admin Login"  style= "padding: 15px;" />
+        </h:panelGrid>
+        
+        <p style="font-size: 24px"> Review your favourite songs and music that you have never heard of before!</p>
+        </f:ajax>
     </h:body>
+
+
+
+
+
 </html>
 
 

@@ -6,19 +6,31 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Facelets Template</title>
+        <title>Bingus Music Reviews</title>
     </h:head>
 
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Bingus Music Reviews</ui:insert>
+            <ui:insert name="top">
+            <h1 style="text-align:center;">Bingus Music Reviews</h1>
+            <h:panelGrid columns="10" style="margin: 0 auto;">
+                <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
+                <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+                <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
+                <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
+                <h:link outcome="about" value="About" style= "padding: 15px;"   />
+                <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+                <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+                <h:link outcome="adminlogin" value="Admin Login"  style= "padding: 15px;" />
+            </h:panelGrid>
+            </ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Browse Artists</ui:insert>
+            <ui:insert name="content"><p style="text-align:center;">Browse Artists</p>
+                
+            </ui:insert>
         </div>
 
         <div id="bottom">
