@@ -35,6 +35,10 @@
     
             <label>Username:</label>
             <input type="text" name="username" /><br /><br />
+            <h:outputText value="Username:"/>
+            <h:inputText id="nameInputText" required="true"
+            requiredMessage="Enter Username"
+            value="#{SessionValidationBean.username}"
     
             <label>Password:</label>
             <input type="password" name="password" /><br /><br />
