@@ -40,9 +40,22 @@
             <h:inputText id="usernameInputText" required="true"
             requiredMessage="Enter Username"
             value="#{SessionValidationBean.username}"
+            validatorMessage="Username must be fewer than 20 characters">
+            <f:validateLength maximum="20" />
+            </h:inputText>
+            <h:message for="usernameInputText" styleClass="error"/>
+            
     
             <label>Password:</label>
             <input type="password" name="password" /><br /><br />
+            <h:outputText value="Password:"/>
+            <h:inputText id="passwordInputText" required="true"
+            requiredMessage="Enter Password"
+            value="#{SessionValidationBean.password}"
+            validatorMessage="Password must be fewer than 15 characters">
+            <f:validateLength maximum="15" />
+            </h:inputText>
+            <h:message for="passwordInputText" styleClass="error"/>
     
             <input type="submit" value="Login" />
             </form>
