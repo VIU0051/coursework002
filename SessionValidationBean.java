@@ -1,8 +1,8 @@
 package javapages
 INSERT IMPORTS HERE
 
-@ManagedBean(name="ValidationBean")
-public class ValidationBean implements Serializable
+@ManagedBean(name="SessionValidationBean")
+public class SessionValidationBean implements Serializable
 {
 private String username;
 private String password;
