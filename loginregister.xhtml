@@ -7,6 +7,7 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Bingus Music Reviews</title>
+            <h:outputStylesheet name="style.css" library="css"/>
     </h:head>
 
     <h:body>
@@ -36,7 +37,7 @@
             <label>Username:</label>
             <input type="text" name="username" /><br /><br />
             <h:outputText value="Username:"/>
-            <h:inputText id="nameInputText" required="true"
+            <h:inputText id="usernameInputText" required="true"
             requiredMessage="Enter Username"
             value="#{SessionValidationBean.username}"
     
