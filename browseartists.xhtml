@@ -1,42 +1,92 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Bingus Music Reviews</title>
+        <title>Bingus Music Reviews - Browse Artists</title>
     </h:head>
 
-    <h:body>
+    <h:body style="font-family: Arial, sans-serif; margin:0; background-color:#f4f4f4;">
 
-        <div id="top">
+        <div id="top" style="background-color:#222; color:white; padding:20px;">
             <ui:insert name="top">
-            <h1 style="text-align:center;">Bingus Music Reviews</h1>
-            <h:panelGrid columns="10" style="margin: 0 auto;">
-                <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
-                <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
-                <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
-                <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
-                <h:link outcome="about" value="About" style= "padding: 15px;"   />
-                <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
-                <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
-                <h:link outcome="adminlogin" value="Admin Login"  style= "padding: 15px;" />
-            </h:panelGrid>
+                <h1 style="text-align:center; margin-bottom:20px;">Bingus Music Reviews</h1>
+                <h:panelGrid columns="8" style="margin: 0 auto; text-align:center;">
+                    <h:link outcome="index.xhtml" value="Home" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="browseartists" value="Browse Artists" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="loginregister" value="Login/Register" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="userprofile" value="User Profile" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="about" value="About" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="contactus" value="Contact Us" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="faq" value="FAQ" style="padding: 15px; color:white; text-decoration:none;" />
+                    <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px; color:white; text-decoration:none;" />
+                </h:panelGrid>
             </ui:insert>
         </div>
 
-        <div id="content" class="center_content">
-            <ui:insert name="content"><p style="text-align:center;">Browse Artists</p>
-                
+        <div id="content" class="center_content" style="width:70%; margin:30px auto; background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+            <ui:insert name="content">
+
+                <h2 style="text-align:center; color:#333;">Browse Artists</h2>
+
+                <p style="text-align:center; color:#666;">
+                    Search for your favourite artists and explore their music genres.
+                </p>
+
+                <h:form>
+                    <div style="width:60%; margin:20px auto; text-align:center;">
+                        <h:outputLabel for="searchBox" value="Search Artist:" style="font-weight:bold;" />
+                        <br />
+                        <h:inputText id="searchBox"
+                                     value="#{artistBean.search}"
+                                     style="width:100%; padding:10px; margin-top:10px;">
+                            <f:ajax event="keyup" render="resultsTable resultsCount" />
+                        </h:inputText>
+                    </div>
+
+                    <h:panelGroup id="resultsCount" layout="block" style="text-align:center; margin-bottom:15px; color:#555;">
+                        <h:outputText value="Results found: #{artistBean.filteredArtists.size()}" />
+                    </h:panelGroup>
+
+                    <h:dataTable id="resultsTable"
+                                 value="#{artistBean.filteredArtists}"
+                                 var="artist"
+                                 style="margin:20px auto; width:60%; text-align:center; border-collapse:collapse;"
+                                 border="1"
+                                 rendered="#{not empty artistBean.filteredArtists}">
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Artist Name" />
+                            </f:facet>
+                            <h:outputText value="#{artist.name}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Genre" />
+                            </f:facet>
+                            <h:outputText value="#{artist.genre}" />
+                        </h:column>
+                    </h:dataTable>
+
+                    <h:panelGroup rendered="#{empty artistBean.filteredArtists}" layout="block"
+                                  style="text-align:center; color:#999; margin-top:20px;">
+                        <h:outputText value="No artists found." />
+                    </h:panelGroup>
+                </h:form>
+
             </ui:insert>
         </div>
 
-        <div id="bottom">
+        <div id="bottom" style="text-align:center; padding:15px; background-color:#222; color:white; margin-top:30px;">
             <ui:insert name="bottom">Bingus Music Reviews 2026. Copyright Reserved</ui:insert>
         </div>
 
     </h:body>
-
 </html>
