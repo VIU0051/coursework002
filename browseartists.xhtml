@@ -16,7 +16,7 @@
     <h:body>
         <div id="top">
             <ui:insert name="top">
-                <h1 style="text-align:center;">Bingus Music Reviews</h1>
+                <h1 style="text-align:center;">Bingus Music Library</h1>
                 <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
                 <h:panelGrid columns="10" style="margin: 0 auto;">
                     <h:link outcome="index" value="Home" style= "padding: 15px;" />
@@ -123,38 +123,6 @@
 
                             </h:panelGroup>
 
-                            <h:panelGroup id="songContent">
-
-                                    <div class="artist-card" style="margin-top:20px;">
-
-                                        <h3>#{artistBean.selectedSong.songTitle}</h3>
-
-                                        <p><strong>Duration:</strong> #{artistBean.selectedSong.songDuration}</p>
-
-                                    </div>
-
-                                    <h3>Write a Review for #{artistBean.selectedSong.songTitle}</h3>
-
-                                    <h:outputLabel for="comment" value="Comment:" />
-                                    <br/>
-                                    <h:inputTextarea id="comment"
-                                                     value="#{artistBean.newReview.comment}" />
-
-                                    <br/><br/>
-
-                                    <h:outputLabel for="rating" value="Rating (1–5):" />
-                                    <br/>
-                                    <h:inputText id="rating"
-                                                 value="#{artistBean.newReview.rating}" />
-
-                                    <br/><br/>
-
-                                    <h:commandButton value="Submit Review"
-                                                     action="#{artistBean.addReview}">
-                                        <f:ajax execute="@form" render="@form"/>
-                                    </h:commandButton>
-
-                                </h:panelGroup>
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{empty artistBean.artistSongs}">

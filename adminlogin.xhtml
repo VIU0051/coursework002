@@ -16,14 +16,14 @@
 
                 <h2>Admin Login</h2>
 
+                <h:messages styleClass="error-message"/>
 
                 <div class="form-group">
                     <label for="usernameInputField">Username</label>
                     <h:inputText id="usernameInputField"
                                  value="#{userBean.username}"
                                  required="true"
-                                 requiredMessage="Please enter the username that you want to create.">
-                        <f:validateLength maximum="15"/>
+                                 requiredMessage="Please enter your username.">
                     </h:inputText>
                     <h:message for="usernameInputField" styleClass="error"/>
                 </div>
@@ -33,8 +33,7 @@
                     <h:inputSecret id="passwordInputField"
                                    value="#{userBean.password}"
                                    required="true"
-                                   requiredMessage="Please enter the password for your account.">
-                        <f:validateLength minimum="8" maximum="12"/>
+                                   requiredMessage="Please enter your password.">
                     </h:inputSecret>
                     <h:message for="passwordInputField" styleClass="error"/>
                 </div>

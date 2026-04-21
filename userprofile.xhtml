@@ -18,7 +18,7 @@
     <h:body>
 
         <div id="top">
-            <h1 style="text-align:center;">Bingus Music Reviews</h1>
+            <h1 style="text-align:center;">Bingus Music Library</h1>
                 <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
                 <h:panelGrid columns="10" style="margin: 0 auto;">
                     <h:link outcome="index" value="Home" style= "padding: 15px;" />
@@ -85,33 +85,6 @@
                         </h:commandButton>
 
                     </h:panelGroup>
-
-                    <br/><br/>
-
-                    <h3 class="featured-title" style="font-size: 26px;">User Reviews</h3>
-
-                    <h:dataTable value="#{reviewBean.reviews}"
-                                 var="r"
-                                 styleClass="jsfcrud_list_form"
-                                 border="1">
-
-                        <h:column>
-                            <f:facet name="header">Comment</f:facet>
-                            #{r.comment}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Rating</f:facet>
-                            #{r.rating}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Date</f:facet>
-                            #{r.reviewDate}
-                        </h:column>
-
-                    </h:dataTable>
-
                 </h:form>
             </div>
 
