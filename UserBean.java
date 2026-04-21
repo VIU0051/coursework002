@@ -9,10 +9,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.transaction.*;
-import java.util.List;
 import entities.Users;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 
 /**
  *
@@ -46,19 +43,6 @@ public class UserBean {
     
     @Transactional
     public String register() {
-        List<Users> existingUsers = em.createQuery(
-                "Select u FROM Users u WHERE u.username = :username", Users.class)
-                .setParameter("username", username)
-                .getResultList();
-        
-        if (!existingUsers.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(
-            null, 
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username already exists", null)
-            );
-            return null;
-        }
-        
         Users user = new Users();
         user.setUsername(username);
         user.setPassword(password);

@@ -77,6 +77,7 @@ public class ArtistBean implements Serializable
         System.out.println("CLICKED: " + song.getSongTitle());
     }
     
+
     public Songs getSelectedSong() {
         return selectedSong;
     }   
