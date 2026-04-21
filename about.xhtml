@@ -1,40 +1,76 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Bingus Music Reviews</title>
+        <title>About - Bingus Music Reviews</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
     </h:head>
 
     <h:body>
-
         <div id="top">
             <ui:insert name="top">
-            <h1 style="text-align:center;">Bingus Music Reviews</h1>
-            <h:panelGrid columns="10" style="margin: 0 auto;">
-                <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
-                <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
-                <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
-                <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
-                <h:link outcome="about" value="About" style= "padding: 15px;"  />
-                <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
-                <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
-                <h:link outcome="adminlogin" value="Admin Login"  style= "padding: 15px;" />
+                <h1 style="text-align:center;">Bingus Music Reviews</h1>
+                <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
+                <h:panelGrid columns="10" style="margin: 0 auto;">
+                    <h:link outcome="index" value="Home" style= "padding: 15px;" />
+                    <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+                    <h:link outcome="about" value="About" style= "padding: 15px;"   />
+                    <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+                    <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+                    <h:panelGroup rendered="#{!sessionBean.loggedIn}">
+
+                    <h:link outcome="login" value="Login/Register" style="padding: 15px;" />
+                    <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px;" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{sessionBean.loggedIn}">
+                    <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/artists/List.xhtml" value="Admin Dashboard" style="padding: 15px" rendered="#{sessionBean.userRole eq 'Admin'}"/>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:commandLink value="Log out" action="#{sessionBean.loggingOut()}" style="padding: 15px; display: #{sessionBean.loggedIn ? 'inline' : 'none'}"/>
+                    </h:form>
             </h:panelGrid>
             </ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+            <div class="info-box">
+                <h2 class="info-title">About Us</h2>
+
+                <p class="info-text">
+                    Bingus Music Reviews is a website where users can explore artists,
+                    discover music genres, and read or write reviews for songs.
+                </p>
+
+                <p class="info-text">
+                    The purpose of the website is to help music listeners find new artists
+                    while also sharing opinions on songs they already know and enjoy.
+                </p>
+
+                <p class="info-text">
+                    You can go to the
+                    <h:link outcome="browseartists" value="Browse Artists" styleClass="inline-link"/>
+                    page to search for artists and explore music information.
+                </p>
+
+                <p class="info-text">
+                    If you have any questions, you can visit our
+                    <h:link outcome="faq" value="FAQ" styleClass="inline-link"/>
+                    page where we answer common questions about the website.
+                </p>
+            </div>
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom">
+                Bingus Music Reviews 2026. Copyright Reserved
+            </ui:insert>
         </div>
-
     </h:body>
-
 </html>

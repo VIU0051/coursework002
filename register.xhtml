@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition template="logintemplate.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="jakarta.faces.facelets"
-    xmlns:h="jakarta.faces.html"
-    xmlns:f="jakarta.faces.core">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <ui:define name="content">
 
@@ -14,16 +11,18 @@
 
             <h:form>
 
-                <h2>Admin Login</h2>
+                <h2>Create Account</h2>
 
+                <h:messages styleClass="error-message"/>
 
                 <div class="form-group">
                     <label for="usernameInputField">Username</label>
                     <h:inputText id="usernameInputField"
                                  value="#{userBean.username}"
                                  required="true"
-                                 requiredMessage="Please enter the username that you want to create.">
-                        <f:validateLength maximum="15"/>
+                                 requiredMessage="Please enter your username."
+                                 validatorMessage="Username Invalid. Please try again!">
+                                <f:validateLength minimum="2" />
                     </h:inputText>
                     <h:message for="usernameInputField" styleClass="error"/>
                 </div>
@@ -33,15 +32,21 @@
                     <h:inputSecret id="passwordInputField"
                                    value="#{userBean.password}"
                                    required="true"
-                                   requiredMessage="Please enter the password for your account.">
-                        <f:validateLength minimum="8" maximum="12"/>
+                                   requiredMessage="Please enter your password."
+                                   validatorMessage="Invalid username or password. Please Try Again!">
+                        <f:validateLength minimum="2"/>
                     </h:inputSecret>
                     <h:message for="passwordInputField" styleClass="error"/>
                 </div>
 
-                <h:commandButton value="Login"
-                                 action="#{userBean.login()}"
+                <h:commandButton value="Register"
+                                 action="#{userBean.register()}"
                                  styleClass="btn-primary"/>
+
+                <p class="register-link">
+                    Already have an account?
+                    <h:link outcome="login" value="Login"/>
+                </p>
 
             </h:form>
 

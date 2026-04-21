@@ -1,18 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/template.xhtml" 
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Facelets Template</title>
+        <title>Admin Dashboard</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
+        <f:metadata>
+        <f:event type="preRenderView"
+             listener="#{sessionBean.checkAdmin}" />
+        </f:metadata>
     </h:head>
 
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Top</ui:insert>
+            <ui:insert name="top">
+                <h1 style="text-align: center;">Bingus Music Reviews</h1>
+                <h:panelGrid columns = "5" style="margin: 0 auto">
+                    <h:link outcome="/Admin/artists/List" value="Manage Artists" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/albums/List" value="Manage Albums" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/reviews/List" value="Manage Reviews" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/users/List" value="Manage Users" style= "padding: 15px;" />
+                    <h:form>
+                    <h:commandLink value="Log out" action="#{sessionBean.loggingOut}" style="padding: 15px; display: #{sessionBean.loggedIn ? 'inline' : 'none'}"/>
+                    </h:form>
+                </h:panelGrid>
+            </ui:insert>
         </div>
 
         <div id="content" class="center_content">
@@ -20,7 +40,7 @@
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom">Bingus Music Reviews 2026. Copyright Reserved</ui:insert>
         </div>
 
     </h:body>

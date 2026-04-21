@@ -1,42 +1,92 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Bingus Music Reviews</title>
+        <title>FAQ - Bingus Music Reviews</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
     </h:head>
 
     <h:body>
-
         <div id="top">
             <ui:insert name="top">
-            <h1 style="text-align:center;">Bingus Music Reviews</h1>
-            <h:panelGrid columns="10" style="margin: 0 auto;">
-                <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
-                <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
-                <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
-                <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
-                <h:link outcome="about" value="About" style= "padding: 15px;"   />
-                <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
-                <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
-                <h:link outcome="adminlogin" value="Admin Login" style= "padding: 15px;" />
+                <h1 style="text-align:center;">Bingus Music Reviews</h1>
+                <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
+                <h:panelGrid columns="10" style="margin: 0 auto;">
+                    <h:link outcome="index" value="Home" style= "padding: 15px;" />
+                    <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+                    <h:link outcome="about" value="About" style= "padding: 15px;"   />
+                    <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+                    <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+                    <h:panelGroup rendered="#{!sessionBean.loggedIn}">
+
+                    <h:link outcome="login" value="Login/Register" style="padding: 15px;" />
+                    <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px;" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{sessionBean.loggedIn}">
+                    <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/artists/List.xhtml" value="Admin Dashboard" style="padding: 15px" rendered="#{sessionBean.userRole eq 'Admin'}"/>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:commandLink value="Log out" action="#{sessionBean.loggingOut()}" style="padding: 15px; display: #{sessionBean.loggedIn ? 'inline' : 'none'}"/>
+                    </h:form>
             </h:panelGrid>
             </ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+            <div class="info-box">
+                <h2 class="info-title">Frequently Asked Questions</h2>
+
+                <p class="info-text">
+                    Here are some common questions users may have about Bingus Music Reviews.
+                </p>
+
+                <div class="faq-item">
+                    <h3>What is Bingus Music Reviews?</h3>
+                    <p>
+                        It is a music review website where users can explore artists, view genres,
+                        and interact with music-related content.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I browse artists?</h3>
+                    <p>
+                        Go to the
+                        <h:link outcome="browseartists" value="Browse Artists" styleClass="inline-link"/>
+                        page, where you can search for artists and filter them by genre.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Do I need an account to use the website?</h3>
+                    <p>
+                        You can browse the website freely, but some features may require login depending
+                        on your role and access level.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I contact the website team?</h3>
+                    <p>
+                        Visit the
+                        <h:link outcome="contactus" value="Contact Us" styleClass="inline-link"/>
+                        page for support details.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom">
+                Bingus Music Reviews 2026. Copyright Reserved
+            </ui:insert>
         </div>
-
     </h:body>
-
 </html>

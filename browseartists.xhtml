@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
@@ -7,86 +7,180 @@
       xmlns:f="jakarta.faces.core">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Bingus Music Reviews - Browse Artists</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
     </h:head>
 
-    <h:body style="font-family: Arial, sans-serif; margin:0; background-color:#f4f4f4;">
-
-        <div id="top" style="background-color:#222; color:white; padding:20px;">
+    <h:body>
+        <div id="top">
             <ui:insert name="top">
-                <h1 style="text-align:center; margin-bottom:20px;">Bingus Music Reviews</h1>
-                <h:panelGrid columns="8" style="margin: 0 auto; text-align:center;">
-                    <h:link outcome="index.xhtml" value="Home" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="browseartists" value="Browse Artists" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="loginregister" value="Login/Register" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="userprofile" value="User Profile" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="about" value="About" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="contactus" value="Contact Us" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="faq" value="FAQ" style="padding: 15px; color:white; text-decoration:none;" />
-                    <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px; color:white; text-decoration:none;" />
+                <h1 style="text-align:center;">Bingus Music Reviews</h1>
+                <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
+                <h:panelGrid columns="10" style="margin: 0 auto;">
+                    <h:link outcome="index" value="Home" style= "padding: 15px;" />
+                    <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+                    <h:link outcome="about" value="About" style= "padding: 15px;"   />
+                    <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+                    <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+                    <h:panelGroup rendered="#{!sessionBean.loggedIn}">
+
+                        <h:link outcome="login" value="Login/Register" style="padding: 15px;" />
+                        <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px;" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{sessionBean.loggedIn}">
+                        <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;" />
+                        <h:link outcome="/Admin/artists/List.xhtml" value="Admin Dashboard" style="padding: 15px" rendered="#{sessionBean.userRole eq 'Admin'}"/>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:commandLink value="Log out" action="#{sessionBean.loggingOut()}" style="padding: 15px; display: #{sessionBean.loggedIn ? 'inline' : 'none'}"/>
+                    </h:form>
                 </h:panelGrid>
             </ui:insert>
         </div>
 
-        <div id="content" class="center_content" style="width:70%; margin:30px auto; background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
-            <ui:insert name="content">
+        <div id="content" class="center_content">
 
-                <h2 style="text-align:center; color:#333;">Browse Artists</h2>
-
-                <p style="text-align:center; color:#666;">
+            <div class="browse-box">
+                <h2 class="browse-title">Browse Artists</h2>
+                <p class="browse-text">
                     Search for your favourite artists and explore their music genres.
                 </p>
 
                 <h:form>
-                    <div style="width:60%; margin:20px auto; text-align:center;">
-                        <h:outputLabel for="searchBox" value="Search Artist:" style="font-weight:bold;" />
-                        <br />
-                        <h:inputText id="searchBox"
-                                     value="#{artistBean.search}"
-                                     style="width:100%; padding:10px; margin-top:10px;">
-                            <f:ajax event="keyup" render="resultsTable resultsCount" />
-                        </h:inputText>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <h:outputLabel for="searchBox" value="Search Artist" />
+                            <h:inputText id="searchBox" value="#{artistsController.search}" styleClass="search-input">
+                                <f:ajax event="keyup" execute="@this" render="artistCards resultsCount noResults"/>
+                            </h:inputText>
+                        </div>
+
+                        <div class="filter-group">
+                            <h:outputLabel for="genreMenu" value="Filter by Genre" />
+                            <h:selectOneMenu id="genreMenu" value="#{artistsController.selectedGenre}" styleClass="genre-select">
+                                <f:selectItems value="#{artistsController.genres}" />
+                                <f:ajax event="change" render="artistCards resultsCount noResults" />
+                            </h:selectOneMenu>
+                        </div>
                     </div>
 
-                    <h:panelGroup id="resultsCount" layout="block" style="text-align:center; margin-bottom:15px; color:#555;">
-                        <h:outputText value="Results found: #{artistBean.filteredArtists.size()}" />
+                    <h:panelGroup id="resultsCount" layout="block" styleClass="results-count">
+                        <h:outputText value="Results found: #{artistsController.filteredArtists.size()}" />
                     </h:panelGroup>
 
-                    <h:dataTable id="resultsTable"
-                                 value="#{artistBean.filteredArtists}"
-                                 var="artist"
-                                 style="margin:20px auto; width:60%; text-align:center; border-collapse:collapse;"
-                                 border="1"
-                                 rendered="#{not empty artistBean.filteredArtists}">
+                    <h:panelGroup id="artistCards" layout="block" rendered="#{artistBean.selectedArtist == null}">
+                        <div class="artist-card-container">
+                            <ui:repeat value="#{artistsController.filteredArtists}" var="artist">
+                                <h:commandLink action="#{artistBean.selectArtist(artist)}"
+                                               style="text-decoration:none; color:inherit; display:block;">
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Artist Name" />
-                            </f:facet>
-                            <h:outputText value="#{artist.name}" />
-                        </h:column>
+                                    <f:ajax execute="@form" render="@form"/>
+                                    <div class="artist-card">
+                                        <h3>#{artist.artistName}</h3>
+                                        <p><strong>Genre:</strong> #{artist.genre}</p>
+                                        <p><strong>Bio:</strong> #{artist.biography}</p>
+                                    </div>
+                                </h:commandLink>
+                            </ui:repeat>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="mainContent" rendered="#{artistBean.selectedArtist != null}">
+                        <h:panelGroup id="artistDetails">
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Genre" />
-                            </f:facet>
-                            <h:outputText value="#{artist.genre}" />
-                        </h:column>
-                    </h:dataTable>
+                            <div class="artist-card" style="margin-top:20px;">
 
-                    <h:panelGroup rendered="#{empty artistBean.filteredArtists}" layout="block"
-                                  style="text-align:center; color:#999; margin-top:20px;">
-                        <h:outputText value="No artists found." />
+                                <h2>#{artistBean.selectedArtist.artistName}</h2>
+
+                                <p><strong>Genre:</strong> #{artistBean.selectedArtist.genre}</p>
+
+                                <p><strong>Biography:</strong> #{artistBean.selectedArtist.biography}</p>
+                            </div>
+
+                            <br/><br/>
+                            <h:panelGroup id="songDetails" rendered="#{not empty artistBean.artistSongs}">
+                                <div class="songs-list">
+                                    <h3>Songs: </h3>
+                                    <ui:repeat value="#{artistBean.artistSongs}" var="song">
+
+                                        <div class="song-item">
+
+                                            <h:commandLink action="#{artistBean.selectSong(song)}"
+                                                           style="text-decoration:none; color:blue;">
+
+                                                <f:ajax execute="@this" render="songContent"/>
+
+                                                #{song.songTitle}
+
+                                            </h:commandLink>
+
+                                        </div>
+
+                                    </ui:repeat>
+
+                                </div>
+
+                            </h:panelGroup>
+
+                            <h:panelGroup id="songContent">
+
+                                    <div class="artist-card" style="margin-top:20px;">
+
+                                        <h3>#{artistBean.selectedSong.songTitle}</h3>
+
+                                        <p><strong>Duration:</strong> #{artistBean.selectedSong.songDuration}</p>
+
+                                    </div>
+
+                                    <h3>Write a Review for #{artistBean.selectedSong.songTitle}</h3>
+
+                                    <h:outputLabel for="comment" value="Comment:" />
+                                    <br/>
+                                    <h:inputTextarea id="comment"
+                                                     value="#{artistBean.newReview.comment}" />
+
+                                    <br/><br/>
+
+                                    <h:outputLabel for="rating" value="Rating (1–5):" />
+                                    <br/>
+                                    <h:inputText id="rating"
+                                                 value="#{artistBean.newReview.rating}" />
+
+                                    <br/><br/>
+
+                                    <h:commandButton value="Submit Review"
+                                                     action="#{artistBean.addReview}">
+                                        <f:ajax execute="@form" render="@form"/>
+                                    </h:commandButton>
+
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{empty artistBean.artistSongs}">
+                                <p>No songs found.</p>
+                            </h:panelGroup>
+                            <br/><br/>
+                            <h:commandButton value="Back to Browse">
+                                <f:ajax listener="#{artistBean.clearSelection}"
+                                        execute="@form"
+                                        render="@form"/>
+                            </h:commandButton>
+
+                        </h:panelGroup> 
+
+                    <h:panelGroup id="noResults" layout="block" rendered="#{empty artistsController.filteredArtists}">
+                        <p class="no-results">No artists found.</p>
                     </h:panelGroup>
                 </h:form>
+            </div>
 
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">
+                Bingus Music Reviews 2026. Copyrights Reserved
             </ui:insert>
         </div>
-
-        <div id="bottom" style="text-align:center; padding:15px; background-color:#222; color:white; margin-top:30px;">
-            <ui:insert name="bottom">Bingus Music Reviews 2026. Copyright Reserved</ui:insert>
-        </div>
-
     </h:body>
 </html>

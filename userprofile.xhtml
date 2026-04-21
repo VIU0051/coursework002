@@ -1,42 +1,125 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
         <title>Bingus Music Reviews</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
     </h:head>
 
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">
             <h1 style="text-align:center;">Bingus Music Reviews</h1>
-            <h:panelGrid columns="10" style="margin: 0 auto;">
-                <h:link outcome="index.xhtml" value="Home" style= "padding: 15px;" />
-                <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
-                <h:link outcome="loginregister" value="Login/Register" style= "padding: 15px;"  />
-                <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;"  />
-                <h:link outcome="about" value="About" style= "padding: 15px;"   />
-                <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
-                <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
-                <h:link outcome="adminlogin" value="Admin Login"  style= "padding: 15px;" />
+                <h:outputText style="text-align: right" value="Hello, #{sessionBean.username}" rendered="#{sessionBean.loggedIn}"/>
+                <h:panelGrid columns="10" style="margin: 0 auto;">
+                    <h:link outcome="index" value="Home" style= "padding: 15px;" />
+                    <h:link outcome="browseartists" value="Browse Artists" style= "padding: 15px;"  />
+                    <h:link outcome="about" value="About" style= "padding: 15px;"   />
+                    <h:link outcome="contactus" value="Contact Us" style= "padding: 15px;"  />
+                    <h:link outcome="faq" value="FAQ" style= "padding: 15px;"  />
+                    <h:panelGroup rendered="#{!sessionBean.loggedIn}">
+
+                    <h:link outcome="login" value="Login/Register" style="padding: 15px;" />
+                    <h:link outcome="adminlogin" value="Admin Login" style="padding: 15px;" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{sessionBean.loggedIn}">
+                    <h:link outcome="userprofile" value="User Profile" style= "padding: 15px;" />
+                    <h:link outcome="/Admin/artists/List.xhtml" value="Admin Dashboard" style="padding: 15px" rendered="#{sessionBean.userRole eq 'Admin'}"/>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:commandLink value="Log out" action="#{sessionBean.loggingOut()}" style="padding: 15px; display: #{sessionBean.loggedIn ? 'inline' : 'none'}"/>
+                    </h:form>
             </h:panelGrid>
-            </ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+
+            <div class="info-box">
+                <h2 class="info-title">User Profile</h2>
+
+                <h:form>
+
+                    <h:panelGroup id="userProfileDisplay"
+                                  style="display: #{userBean.editing ? 'none' : 'block'};">
+
+                        <p class="info-text">
+                            <strong>Username:</strong> #{sessionBean.username}
+                        </p>
+
+                        <p class="info-text">
+                            <strong>Role:</strong> #{sessionBean.userRole}
+                        </p>
+
+                        <h:commandLink action="#{userBean.enableEdit}"
+                                       value="Edit Username"
+                                       styleClass="browse-btn">
+                            <f:ajax event="action"
+                                    execute="@this"
+                                    render="userProfileDisplay userProfileEdit" />
+                        </h:commandLink>
+
+                    </h:panelGroup>
+
+                    <h:panelGroup id="userProfileEdit"
+                                  style="display: #{userBean.editing ? 'block' : 'none'};">
+
+                        <p class="info-text"><strong>New Username:</strong></p>
+                        <h:inputText value="#{userBean.username}" styleClass="search-input"/>
+                        <br/><br/>
+
+                        <h:commandButton value="Save"
+                                         action="#{userBean.updateUsername}"
+                                         styleClass="btn-primary">
+                            <f:ajax event="action"
+                                    execute="@form"
+                                    render="userProfileDisplay userProfileEdit" />
+                        </h:commandButton>
+
+                    </h:panelGroup>
+
+                    <br/><br/>
+
+                    <h3 class="featured-title" style="font-size: 26px;">User Reviews</h3>
+
+                    <h:dataTable value="#{reviewBean.reviews}"
+                                 var="r"
+                                 styleClass="jsfcrud_list_form"
+                                 border="1">
+
+                        <h:column>
+                            <f:facet name="header">Comment</f:facet>
+                            #{r.comment}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Rating</f:facet>
+                            #{r.rating}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Date</f:facet>
+                            #{r.reviewDate}
+                        </h:column>
+
+                    </h:dataTable>
+
+                </h:form>
+            </div>
+
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            Bingus Music Reviews 2026. Copyright Reserved
         </div>
 
     </h:body>
-
 </html>

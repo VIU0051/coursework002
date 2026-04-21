@@ -5,11 +5,31 @@
       xmlns:h="jakarta.faces.html">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><ui:insert name="title">Default Title</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="layout.css"/>
+        <h:outputStylesheet library="css" name="components.css"/>
+        <title>Admin Dashboard</title>
     </h:head>
 
     <h:body>
+        <div id="top">
+        <h1>Bingus Music Reviews</h1>
+        </div>
+          <div id="menu">
+        <ul>
+            <li><h:link outcome="/index.xhtml" value="Home"/></li>
+            <li><h:link outcome="/Admin/artists/List" value="Manage Artists"/></li>
+            <li><h:link outcome="/Admin/albums/List" value="Manage Albums"/></li>
+            <li><h:link outcome="/Admin/songs/List" value="Manage Songs"/></li>
+            <li><h:link outcome="/Admin/reviews/List" value="Manage Reviews"/></li>
+            <li><h:link outcome="/Admin/users/List" value="Manage Users"/></li>
+            <li>
+                <h:form>
+                    <h:commandLink value="Log out" action="#{sessionBean.loggingOut}" />
+                </h:form>
+            </li>
+        </ul>
+    </div>
         <h1>
             <ui:insert name="title">Default Title</ui:insert>
         </h1>
